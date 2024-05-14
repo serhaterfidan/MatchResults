@@ -1,4 +1,4 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.sanstech.matchresults.R
 import com.sanstech.matchresults.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

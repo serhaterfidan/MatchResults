@@ -1,4 +1,4 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.utils
 
 import android.content.Context
 import android.graphics.Color
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.PopupWindow
 import com.airbnb.lottie.LottieAnimationView
+import com.sanstech.matchresults.R
 
 class LottiePopupView @JvmOverloads constructor(
     context: Context,
@@ -26,6 +27,7 @@ class LottiePopupView @JvmOverloads constructor(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             Gravity.CENTER
         )
+        animationView.loop(true)
         animationView.playAnimation()
         addView(animationView)
 

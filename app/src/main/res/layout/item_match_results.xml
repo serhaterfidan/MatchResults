@@ -4,7 +4,7 @@
     <data>
         <variable
             name="match"
-            type="com.sanstech.matchresults.Match" />
+            type="com.sanstech.matchresults.data.Match" />
     </data>
 
     <LinearLayout

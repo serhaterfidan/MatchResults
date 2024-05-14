@@ -1,4 +1,4 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

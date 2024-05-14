@@ -1,10 +1,11 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.sanstech.matchresults.data.Match
 import com.sanstech.matchresults.databinding.ItemMatchResultsBinding
 import javax.inject.Inject
 
@@ -49,7 +50,7 @@ class MatchAdapter @Inject constructor() : RecyclerView.Adapter<MatchAdapter.Mat
                 }
             }
 
-            BindingAdapters.setMatchScore(binding.textScore,match)
+            BindingAdapters.setMatchScore(binding.textScore, match)
 
             binding.executePendingBindings()
         }

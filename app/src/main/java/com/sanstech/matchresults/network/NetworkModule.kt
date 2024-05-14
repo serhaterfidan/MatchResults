@@ -1,4 +1,4 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.network
 
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.network
 
 sealed class NetworkResult<T> {
     data class Loading<T>(val isLoading: Boolean) : NetworkResult<T>()

@@ -1,4 +1,4 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

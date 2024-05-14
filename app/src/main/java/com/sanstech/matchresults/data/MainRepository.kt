@@ -1,5 +1,7 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.data
 
+import com.sanstech.matchresults.network.MatchService
+import com.sanstech.matchresults.network.NetworkResult
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

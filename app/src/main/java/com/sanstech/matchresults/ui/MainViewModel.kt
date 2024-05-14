@@ -1,9 +1,12 @@
-package com.sanstech.matchresults
+package com.sanstech.matchresults.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sanstech.matchresults.data.MainRepository
+import com.sanstech.matchresults.data.Match
+import com.sanstech.matchresults.network.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
