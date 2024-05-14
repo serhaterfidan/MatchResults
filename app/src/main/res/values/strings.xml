@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Match Results</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="match_results_fragment_label">Match Results</string>
+    <string name="match_results_detail_fragment_label">Match Detail</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+</resources>

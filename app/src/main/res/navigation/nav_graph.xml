@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MatchResults">
+
+    <fragment
+        android:id="@+id/MatchResults"
+        android:name="com.sanstech.matchresults.MatchResults"
+        android:label="@string/match_results_fragment_label"
+        tools:layout="@layout/fragment_match_results">
+
+        <action
+            android:id="@+id/action_MatchResults_to_MatchDetail"
+            app:destination="@id/MatchDetail" >
+            <argument
+                android:name="selectedMatch"
+                app:argType="com.sanstech.matchresults.Match" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/MatchDetail"
+        android:name="com.sanstech.matchresults.MatchDetail"
+        android:label="@string/match_results_detail_fragment_label"
+        tools:layout="@layout/fragment_match_detail">
+
+    </fragment>
+</navigation>

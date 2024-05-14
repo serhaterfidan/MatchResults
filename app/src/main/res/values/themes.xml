@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.LiveScores" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">#3F51B5</item> <!-- ActionBar arka plan rengi -->
+        <item name="colorPrimaryDark">#303F9F</item> <!-- ActionBar alt kısmı ve status bar rengi -->
+        <item name="colorAccent">#FF4081</item> <!-- Vurgu rengi -->
+
+    </style>
+
+    <style name="Theme.LiveScores" parent="Base.Theme.LiveScores" />
+</resources>
