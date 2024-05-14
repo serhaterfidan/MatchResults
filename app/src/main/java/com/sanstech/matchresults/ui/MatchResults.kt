@@ -24,7 +24,7 @@ class MatchResults : Fragment() {
     private lateinit var lottiePopupView : LottiePopupView
     private lateinit var errorPopupView: ErrorPopupView
     @Inject
-    lateinit var matchAdapter: MatchAdapter
+    lateinit var matchAdapter: MatchGroupAdapter
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -42,36 +42,62 @@ class MatchResults : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUI()
+        initObserver()
+
+    }
+
+    private fun initUI() {
         lottiePopupView = LottiePopupView(requireContext())
         errorPopupView = ErrorPopupView(requireContext())
 
         binding.recyclerViewMatches.setLayoutManager(LinearLayoutManager(requireContext()))
         binding.recyclerViewMatches.adapter = matchAdapter
 
-        matchAdapter.setItemClick(object : ClickInterface<Match> {
+        matchAdapter.setItemClick(object : MatchGroupAdapter.ClickInterface<Match> {
             override fun onClick(data: Match) {
-                findNavController().navigate(MatchResultsDirections.actionMatchResultsToMatchDetail(data))
+                findNavController().navigate(
+                    MatchResultsDirections.actionMatchResultsToMatchDetail(
+                        data
+                    )
+                )
             }
         })
-
+    }
+    private fun initObserver() {
         mainViewModel.matchResponse.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 is NetworkResult.Loading -> {
                     lottiePopupView.show()
                 }
+
                 is NetworkResult.Failure -> {
                     lottiePopupView.dismiss()
                     errorPopupView.showError(it.errorMessage)
                 }
-                is  NetworkResult.Success -> {
+
+                is NetworkResult.Success -> {
                     lottiePopupView.dismiss()
-                    matchAdapter.updateMovies(it.data)
+
+                    val groupedMatches = it.data.sortedBy { it1 -> it1.d }.groupBy { it1 -> it1.to }
+                    val recyclerViewList = mutableListOf<MatchGroupAdapter.RecyclerViewItem>()
+
+                    groupedMatches.forEach { (tournament, matchList) ->
+                        recyclerViewList.add(
+                            MatchGroupAdapter.RecyclerViewItem.TournamentItem(
+                                tournament
+                            )
+                        )
+                        matchList.forEach { match ->
+                            recyclerViewList.add(MatchGroupAdapter.RecyclerViewItem.MatchItem(match))
+                        }
+                    }
+
+                    matchAdapter.updateMatchGroups(recyclerViewList)
 
                 }
             }
         }
-
-
     }
 
     override fun onDestroyView() {

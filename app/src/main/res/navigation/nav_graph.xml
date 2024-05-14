@@ -18,12 +18,15 @@
                 android:name="selectedMatch"
                 app:argType="com.sanstech.matchresults.data.Match" />
         </action>
+
     </fragment>
     <fragment
         android:id="@+id/MatchDetail"
         android:name="com.sanstech.matchresults.ui.MatchDetail"
         android:label="@string/match_results_detail_fragment_label"
         tools:layout="@layout/fragment_match_detail">
-
+        <argument
+            android:name="selectedMatch"
+            app:argType="com.sanstech.matchresults.data.Match" />
     </fragment>
 </navigation>
