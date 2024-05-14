@@ -12,6 +12,8 @@ import javax.inject.Inject
 
 class MatchGroupAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var filteredItems: ArrayList<RecyclerViewItem> = arrayListOf()
+    private var allitems: List<RecyclerViewItem> = arrayListOf()
     private var items: List<RecyclerViewItem> = arrayListOf()
     private var clickInterface: ClickInterface<Match>? = null
 
@@ -22,7 +24,33 @@ class MatchGroupAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerVie
 
     fun updateMatchGroups(items: List<RecyclerViewItem>) {
         this.items = items
+        this.allitems = items
         notifyItemRangeInserted(0, items.size)
+    }
+
+    fun filterGroups(groupedMatches: Map<Tournament, List<Match>> = mutableMapOf(),filter: Boolean) {
+        if (filter) {
+            filteredItems.clear()
+            groupedMatches.forEach { (tournament, matchList) ->
+                val count = matchList.count { it.sc.abbr.contains("Bitti") || it.sc.abbr.contains("MS") }
+                if (count > 0) {
+                    filteredItems.add(
+                        RecyclerViewItem.TournamentItem(
+                            tournament
+                        )
+                    )
+                    matchList.forEach { match ->
+                        if (match.sc.abbr.contains("Bitti") || match.sc.abbr.contains("MS"))
+                            filteredItems.add(RecyclerViewItem.MatchItem(match))
+                    }
+                }
+            }
+            items = filteredItems
+        } else
+            items = allitems
+
+        notifyDataSetChanged()
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {

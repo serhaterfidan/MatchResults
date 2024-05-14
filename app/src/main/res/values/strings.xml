@@ -6,4 +6,6 @@
     <string name="match_results_detail_fragment_label">Match Detail</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="all">Tümü</string>
+    <string name="mstext">Maç Sonu</string>
 </resources>

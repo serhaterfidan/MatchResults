@@ -3,14 +3,19 @@ package com.sanstech.matchresults.ui
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sanstech.matchresults.R
 import com.sanstech.matchresults.utils.ErrorPopupView
 import com.sanstech.matchresults.utils.LottiePopupView
 import com.sanstech.matchresults.data.Match
+import com.sanstech.matchresults.data.Tournament
 import com.sanstech.matchresults.databinding.FragmentMatchResultsBinding
 import com.sanstech.matchresults.network.NetworkResult
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,10 +30,15 @@ class MatchResults : Fragment() {
     private lateinit var errorPopupView: ErrorPopupView
     @Inject
     lateinit var matchAdapter: MatchGroupAdapter
+    private var groupedMatches: Map<Tournament, List<Match>> = mutableMapOf()
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +46,6 @@ class MatchResults : Fragment() {
 
         _binding = FragmentMatchResultsBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,24 +88,44 @@ class MatchResults : Fragment() {
                 is NetworkResult.Success -> {
                     lottiePopupView.dismiss()
 
-                    val groupedMatches = it.data.sortedBy { it1 -> it1.d }.groupBy { it1 -> it1.to }
-                    val recyclerViewList = mutableListOf<MatchGroupAdapter.RecyclerViewItem>()
+                    groupedMatches = it.data.sortedBy { it1 -> it1.d }.groupBy { it1 -> it1.to }
+                    val items: ArrayList<MatchGroupAdapter.RecyclerViewItem> = arrayListOf()
 
                     groupedMatches.forEach { (tournament, matchList) ->
-                        recyclerViewList.add(
+                        items.add(
                             MatchGroupAdapter.RecyclerViewItem.TournamentItem(
                                 tournament
                             )
                         )
                         matchList.forEach { match ->
-                            recyclerViewList.add(MatchGroupAdapter.RecyclerViewItem.MatchItem(match))
+                            items.add(MatchGroupAdapter.RecyclerViewItem.MatchItem(match))
                         }
                     }
 
-                    matchAdapter.updateMatchGroups(recyclerViewList)
+                    matchAdapter.updateMatchGroups(items)
 
                 }
             }
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_ms -> {
+                matchAdapter.filterGroups(groupedMatches,true)
+                true
+            }
+            R.id.action_all -> {
+                matchAdapter.filterGroups(groupedMatches,false)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
