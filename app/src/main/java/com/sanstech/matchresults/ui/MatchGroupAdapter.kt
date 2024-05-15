@@ -1,5 +1,6 @@
 package com.sanstech.matchresults.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import com.sanstech.matchresults.data.Match
 import com.sanstech.matchresults.data.Tournament
 import com.sanstech.matchresults.databinding.ItemHeaderBinding
 import com.sanstech.matchresults.databinding.ItemMatchResultsBinding
+import com.sanstech.matchresults.utils.SharedPreferencesHelper
 import javax.inject.Inject
 
 class MatchGroupAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -28,26 +30,38 @@ class MatchGroupAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerVie
         notifyItemRangeInserted(0, items.size)
     }
 
-    fun filterGroups(groupedMatches: Map<Tournament, List<Match>> = mutableMapOf(),filter: Boolean) {
-        if (filter) {
-            filteredItems.clear()
-            groupedMatches.forEach { (tournament, matchList) ->
-                val count = matchList.count { it.sc.abbr.contains("Bitti") || it.sc.abbr.contains("MS") }
-                if (count > 0) {
-                    filteredItems.add(
-                        RecyclerViewItem.TournamentItem(
-                            tournament
+    fun filterGroups(context: Context,groupedMatches: Map<Tournament, List<Match>> = mutableMapOf(),filter: Int) {
+        filteredItems.clear()
+
+        when (filter) {
+            0 -> {
+                items = allitems
+            }
+            1 -> {
+                groupedMatches.forEach { (tournament, matchList) ->
+                    val count = matchList.count { it.sc.abbr.contains("Bitti") || it.sc.abbr.contains("MS") }
+                    if (count > 0) {
+                        filteredItems.add(
+                            RecyclerViewItem.TournamentItem(
+                                tournament
+                            )
                         )
-                    )
-                    matchList.forEach { match ->
-                        if (match.sc.abbr.contains("Bitti") || match.sc.abbr.contains("MS"))
-                            filteredItems.add(RecyclerViewItem.MatchItem(match))
+                        matchList.forEach { match ->
+                            if (match.sc.abbr.contains("Bitti") || match.sc.abbr.contains("MS"))
+                                filteredItems.add(RecyclerViewItem.MatchItem(match))
+                        }
                     }
                 }
+                items = filteredItems
             }
-            items = filteredItems
-        } else
-            items = allitems
+            2 -> {
+                val favorites = SharedPreferencesHelper.getMatchList(context)
+                favorites.forEach { match ->
+                    filteredItems.add(RecyclerViewItem.MatchItem(match))
+                }
+                items = filteredItems
+            }
+        }
 
         notifyDataSetChanged()
 

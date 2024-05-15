@@ -8,4 +8,8 @@
     <string name="previous">Previous</string>
     <string name="all">Tümü</string>
     <string name="mstext">Maç Sonu</string>
+    <string name="favorites">Favoriler</string>
+    <string name="favorilerden_sil">Favorilerden Sil</string>
+    <string name="favorilere_ekle">Favorilere ekle</string>
+
 </resources>

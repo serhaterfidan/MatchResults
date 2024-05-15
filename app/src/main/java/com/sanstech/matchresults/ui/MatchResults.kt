@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.sanstech.matchresults.R
 import com.sanstech.matchresults.utils.ErrorPopupView
 import com.sanstech.matchresults.utils.LottiePopupView
@@ -35,10 +36,6 @@ class MatchResults : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,6 +68,20 @@ class MatchResults : Fragment() {
                     )
                 )
             }
+        })
+
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.all)))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.mstext)))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.favorites)))
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                matchAdapter.filterGroups(requireContext(),groupedMatches,tab.position)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
     private fun initObserver() {
@@ -106,26 +117,6 @@ class MatchResults : Fragment() {
 
                 }
             }
-        }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_ms -> {
-                matchAdapter.filterGroups(groupedMatches,true)
-                true
-            }
-            R.id.action_all -> {
-                matchAdapter.filterGroups(groupedMatches,false)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
