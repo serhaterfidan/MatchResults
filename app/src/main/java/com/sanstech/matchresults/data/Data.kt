@@ -35,8 +35,8 @@ data class Team(
 data class Score(
     val st: Int,
     val abbr: String,
-    val ht: MatchResult,
-    val at: MatchResult
+    val ht: MatchResult?,
+    val at: MatchResult?
 ) : Parcelable
 
 @Parcelize

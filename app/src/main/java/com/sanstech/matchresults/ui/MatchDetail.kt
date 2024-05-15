@@ -53,8 +53,8 @@ class MatchDetail : Fragment() {
         if (match.sc.abbr == "SCHEDULED") {
             binding.textViewScore.text = "  -  "
         } else {
-            binding.textViewScore.text = "${match.sc.ht.r}  -  ${match.sc.at.r}"
-            binding.textViewHalfTime.text = "${match.sc.ht.r}  -  ${match.sc.at.r}"
+            binding.textViewScore.text = "${match?.sc?.ht?.r?.let { it } ?: run {" "}}  -  ${match?.sc?.at?.r?.let { it } ?: run {" "}}"
+            binding.textViewHalfTime.text = "${match?.sc?.ht?.r?.let { it } ?: run {" "}}  -  ${match?.sc?.at?.r?.let { it } ?: run {" "}}"
             binding.textViewAbbr.text = match.sc.abbr
         }
 

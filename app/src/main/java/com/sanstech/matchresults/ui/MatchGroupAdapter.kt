@@ -131,8 +131,8 @@ class MatchGroupAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerVie
             if (match.sc.abbr == "SCHEDULED") {
                 binding.textViewScore.text = "  -  "
             } else {
-                binding.textViewScore.text = "${match?.sc?.ht?.r?.let { it }}  -  ${match?.sc?.at?.r?.let { it }}"
-                binding.textViewHalfTime.text = "${match?.sc?.ht?.r?.let { it }}  -  ${match?.sc?.at?.r?.let { it }}"
+                binding.textViewScore.text = "${match?.sc?.ht?.r?.let { it } ?: run {" "}}  -  ${match?.sc?.at?.r?.let { it } ?: run {" "}}"
+                binding.textViewHalfTime.text = "${match?.sc?.ht?.r?.let { it } ?: run {" "}}  -  ${match?.sc?.at?.r?.let { it } ?: run {" "}}"
                 binding.textViewAbbr.text = match.sc.abbr
             }
 
